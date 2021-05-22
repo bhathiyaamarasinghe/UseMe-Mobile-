@@ -18,7 +18,7 @@ import Ionicons from 'react-native-vector-icons/Ionicons';
 import { products, mapDarkStyle, mapStandardStyle } from '../model/allData';
 import SearchInput, { createFilter } from 'react-native-search-filter';
 import ProductScreen from '../screens/ProductScreen';
-
+import {BaseUrl} from '../components/serviceUrls';
 
 const CategoryScreen = ({ navigation,route }) => {
 
@@ -30,7 +30,7 @@ const CategoryScreen = ({ navigation,route }) => {
         const getcategoridata = async () => {
             await axios({
                 method: 'get',
-                url: `http://192.168.8.101:8000/api/category/${route.params?.id}/`
+                url: BaseUrl+`/api/category/${route.params?.id}/`
             }).then(response => {
                  console.log({res:response});
                 setCataproduct(response.data[0]?.category_product)

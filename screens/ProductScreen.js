@@ -19,6 +19,8 @@ import SearchInput, { createFilter } from 'react-native-search-filter';
 import { header2 } from '../env'
 import acerImage from '../media/products/acer.jpg';
 import AsyncStorage from '@react-native-community/async-storage';
+import {BaseUrl} from '../components/serviceUrls';
+import {ImgUrl} from '../components/serviceUrls';
 
 
 const FashionScreen = ({ item,route }) => {
@@ -27,7 +29,7 @@ const FashionScreen = ({ item,route }) => {
     
         await axios({
             method: 'post',
-            url: `http://192.168.8.101:8000/api/addtocart/`,
+            url: BaseUrl+`/api/addtocart/`,
             headers: {
                 Authorization: `token ${await AsyncStorage.getItem('token')}`
             },
@@ -40,18 +42,15 @@ const FashionScreen = ({ item,route }) => {
                 console.log(err);
         })
     }
+ 
 
     return (
         <View>
             <ScrollView>
                 <View style={styles.card}>
                     <View style={styles.cardImgWrapper}>
-                        <Text>{item.image}</Text>
                         <Image
-                           source={{ uri:item.image }}
-
-                            // source={require(`../${item.image}`)}
-                            // source={acerImage}
+                            source={{uri:BaseUrl+item.image}}
                             resizeMode="cover"
                             style={styles.cardImg}
                          

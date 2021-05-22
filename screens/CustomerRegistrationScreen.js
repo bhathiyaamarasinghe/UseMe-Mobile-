@@ -18,7 +18,7 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-
+import {BaseUrl} from '../components/serviceUrls';
 import { useTheme } from 'react-native-paper';
 
 import { AuthContext } from '../components/context';
@@ -44,7 +44,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
 
     const { signIn } = React.useContext(AuthContext);
 
-    axios.defaults.baseURL = 'http://192.168.8.101:8000/';
+    // axios.defaults.baseURL = 'http://192.168.8.101:8000/';
 
     const handleSignUp = async () => {
         console.log("handle signup");
@@ -58,7 +58,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
         
             await axios({
                 method: "post",
-                url: `/api/register/`,
+                url: BaseUrl+`/api/register/`,
                 headers: header2,
                 data: {
                     "username": data.username,

@@ -20,8 +20,11 @@ import Feather from 'react-native-vector-icons/Feather';
 import { GoogleSignin, GoogleSigninButton, statusCodes } from '@react-native-community/google-signin';
 import { useTheme } from 'react-native-paper';
 import { AuthContext } from '../components/context';
+import {BaseUrl} from '../components/serviceUrls';
 import { header2 } from '../env';
 import AsyncStorage from '@react-native-community/async-storage';
+
+
 const CustomerRegistrationScreen = ({ navigation }) => {
 
     const [data, setData] = React.useState({
@@ -42,7 +45,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
     const { signIn } = React.useContext(AuthContext);
 
 
-    axios.defaults.baseURL = 'http://192.168.8.101:8000/';
+    // axios.defaults.baseURL = 'http://192.168.8.101:8000/';
 
 
 
@@ -64,7 +67,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
         else {
             await axios({
                 method: "post",
-                url: `/api/login/`,
+                url: BaseUrl+`/api/login/`,
                 headers: header2,
                 data: {
                     "username": data.username,
@@ -77,6 +80,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
                     try {
                         await AsyncStorage.setItem('token', response.data['token']);
                         navigation.navigate('Mainscreen');
+                       
 
                     } catch (e) {
                         console.log(e);

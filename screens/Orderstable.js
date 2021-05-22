@@ -14,8 +14,10 @@ import {
   requestDeviceData,
 } from 'react-native-paypal';
 import axios from 'axios';
+import {BaseUrl} from '../components/serviceUrls';
 import { DataTable } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
+import { Button } from 'react-native-share';
 const Orderstable = props => {
 
 
@@ -38,48 +40,137 @@ const Orderstable = props => {
     const getdata = async () => {
       await axios({
         method: "get",
-        url: `http://192.168.8.101:8000/api/cart/`,
+        url: BaseUrl+`/api/cart/`,
         headers: {
           Authorization: `token ${await AsyncStorage.getItem('token')}`
         }
       }).then(res => {
         console.log(res.data);
-        setTableData(res.data)
-
+        setTableData(res.data);
+      
+       
       })
     }
     getdata()
   }, []
   )
 
+  const updatecartproduct = async (id) => {
+    await axios({
+        method: 'post',
+        url: BaseUrl+`/api/updatecartproduct/`,
+        headers: {
+          Authorization: `token ${await AsyncStorage.getItem('token')}`
+        },
+        data: { "id": id }
+    }).then(response => {
+         console.log(response);
+        // dispatch({
+        //     type: "ADD_RELOADPAGE_DATA",
+        //     reloadpage: response
+        // })
+    })
+}
+const editcartproduct = async (id) => {
+    await axios({
+        method: 'post',
+        url: BaseUrl+`/api/editcartproduct/`,
+        headers: {
+          Authorization: `token ${await AsyncStorage.getItem('token')}`
+        },
+        data: { "id": id }
+    }).then(response => {
+        console.log(response);
+        // dispatch({
+        //     type: "ADD_RELOADPAGE_DATA",
+        //     reloadpage: response
+        // })
+    })
+}
+const delatecartproduct = async (id) => {
+    await axios({
+        method: 'post',
+        url: `http://192.168.8.101:8000/api/delatecartproduct/`,
+        headers: {
+          Authorization: `token ${await AsyncStorage.getItem('token')}`
+        },
+        data: { "id": id }
+    }).then(response => {
+         console.log(response);
+        // dispatch({
+        //     type: "ADD_RELOADPAGE_DATA",
+        //     reloadpage: response
+        // })
+    })
+}
+const delatefullcard = async (id) => {
+    await axios({
+        method: 'post',
+        url: BaseUrl+`/api/delatefullcart/`,
+        headers: {
+          Authorization: `token ${await AsyncStorage.getItem('token')}`
+        },
+        data: { "id": id }
+    }).then(response => {
+        console.log(response);
+        // dispatch({
+        //     type: "ADD_RELOADPAGE_DATA",
+        //     reloadpage: response
+        // })
+        // dispatch({
+        //     type: "ADD_CARTPRODUCT_UNCOMPLIT",
+        //     cartproductf_uncomplit: null
+        // })
+        alert("Full Cart is Delated")
+        // history.push('/')
+    }).catch(error => {
+        console.log(error);
+    })
+}
+
+
+
 
   return (
     <ScrollView style={styles.container}>
-      <View style={{ marginTop: 20, marginBottom: 20, marginLeft: 10 }}>
-        <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#03112E' }}>
-          See Your Bill Information Here
-        </Text>
-      </View>
-      <DataTable>
-        <DataTable.Header>
-          <DataTable.Title>Item No</DataTable.Title>
-          {/* <DataTable.Title>Item</DataTable.Title> */}
-          <DataTable.Title>Price</DataTable.Title>
-          <DataTable.Title>Qty</DataTable.Title>
-          <DataTable.Title>Subtotal</DataTable.Title>
-        </DataTable.Header>
-            {/* table */}
-        {
-          tableData?.map((tdata, i) => {
-            return (
-              <View>
-                <DataTable.Row key={i}>
-              
-                  <DataTable.Cell>{i + 1}</DataTable.Cell>
-                  <DataTable.Cell>{tdata.cartproduct[0].price}</DataTable.Cell>
-                  <DataTable.Cell>{tdata.cartproduct[0].quantity}</DataTable.Cell>
-                  <DataTable.Cell>{tdata.cartproduct[0].subtotal}</DataTable.Cell>
 
+
+
+      {
+        tableData?.map((tdata, index) => {
+          return (
+            <View>
+              <View style={{ marginTop: 20, marginBottom: 20, marginLeft: 10 }}>
+                <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#03112E' }}>
+                  Here is cart{tdata.customer.name}
+                </Text>
+              </View>
+
+              <DataTable>
+                <DataTable.Header>
+                  <DataTable.Title>Item No</DataTable.Title>
+                  {/* <DataTable.Title>Item</DataTable.Title> */}
+                  <DataTable.Title>Price</DataTable.Title>
+                  <DataTable.Title>Qty</DataTable.Title>
+                  <DataTable.Title>Subtotal</DataTable.Title>
+                  <DataTable.Title>Action</DataTable.Title>
+
+                </DataTable.Header>
+                
+
+                
+                <DataTable.Row key={index=tdata.cartproduct.length-1}>
+
+                  <DataTable.Cell>{index}   </DataTable.Cell>
+                  <DataTable.Cell>{tdata.cartproduct[index].price}   </DataTable.Cell>
+                  <DataTable.Cell>{tdata.cartproduct[index].quantity}   </DataTable.Cell>
+                  <DataTable.Cell>{tdata.cartproduct[index].subtotal}    </DataTable.Cell>
+                  <DataTable.Cell>
+                    <Text onPress={() =>editcartproduct(tdata.id)} >-   </Text>
+                    <Text onPress={() => delatecartproduct(tdata.id)} >R  </Text>
+                    <Text onPress={() => updatecartproduct(tdata.id)} >+   </Text>
+    
+                  </DataTable.Cell>
                 </DataTable.Row>
 
                 <DataTable.Header>
@@ -88,31 +179,28 @@ const Orderstable = props => {
                   <DataTable.Title> </DataTable.Title>
                   <DataTable.Title>{tdata.total}</DataTable.Title>
                 </DataTable.Header>
-              </View>
-            )
-          }
 
 
-
+                <DataTable.Pagination
+                  page={1}
+                  numberOfPages={3}
+                  onPageChange={page => {
+                    console.log(page);
+                  }}
+                  label="1-2 of 6"
+                />
+              </DataTable>
+            </View>
           )
-
-
         }
 
+        )
 
 
-        <DataTable.Pagination
-          page={1}
-          numberOfPages={3}
-          onPageChange={page => {
-            console.log(page);
-          }}
-          label="1-2 of 6"
-        />
-      </DataTable>
+      }
 
-      <View style={{ flexDirection: 'row', marginTop: 45, backgroundColor: '#F1948A ' }}>
-        <View>
+      {/* <View style={{ flexDirection: 'row', marginTop: 45, backgroundColor: '#F1948A ' }}> */}
+        {/* <View>
           <TouchableOpacity
 
             //onPress={() => props.navigation.navigate('Billscreen')}
@@ -171,9 +259,9 @@ const Orderstable = props => {
               pay cash
             </Text>
           </TouchableOpacity>
-        </View>
-      </View>
-      <View style={{ height: 15 }}></View>
+        </View> */}
+      {/* </View>
+      <View style={{ height: 15 }}></View> */}
 
       <View>
         <TouchableOpacity
@@ -191,8 +279,8 @@ const Orderstable = props => {
               textAlign: 'center',
               fontStyle: 'italic'
             }}>
-            pay with paypal
-</Text>
+          Place your order
+           </Text>
         </TouchableOpacity>
 
       </View>
@@ -207,37 +295,42 @@ const styles = StyleSheet.create({
   container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
   head: { height: 40, backgroundColor: '#85C1E9' },
   text: { margin: 6 },
-  payonline: {
-    borderWidth: 1,
-    borderColor: '#2c3e50',
-    backgroundColor: '#062157',
-    marginRight: 10,
-    marginLeft: 2,
-  },
+  // payonline: {
+  //   borderWidth: 1,
+  //   borderColor: '#2c3e50',
+  //   backgroundColor: '#062157',
+  //   marginRight: 10,
+  //   marginLeft: 2,
+  // },
 
-  paycash: {
-    borderWidth: 1,
-    borderColor: '#2c3e50',
-    backgroundColor: '#062157',
-    marginLeft: 2,
-  },
+  // paycash: {
+  //   borderWidth: 1,
+  //   borderColor: '#2c3e50',
+  //   backgroundColor: '#062157',
+  //   marginLeft: 2,
+  // },
 
   paycas: {
     borderWidth: 1,
-    borderColor: '#935116',
-    backgroundColor: '#935116',
-    marginLeft: 2,
-    marginRight: 140
+    borderColor: '#062157',
+    backgroundColor: '#062157',
+    // marginLeft: 20,
+    // marginRight: ,
+    alignContent:'center',
+    marginTop:70,
+    borderRadius:5,
+
+
   },
 
 
 
-  pays: {
-    borderWidth: 1,
-    borderColor: '#3498DB',
-    backgroundColor: '#3498DB',
-    marginLeft: 2,
-  },
+  // pays: {
+  //   borderWidth: 1,
+  //   borderColor: '#3498DB',
+  //   backgroundColor: '#3498DB',
+  //   marginLeft: 2,
+  // },
 });
 
 

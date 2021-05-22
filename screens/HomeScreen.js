@@ -11,6 +11,7 @@ import {
   StatusBar,
 } from 'react-native';
 import axios from 'axios';
+import {BaseUrl} from '../components/serviceUrls';
 import { TouchableOpacity } from 'react-native-gesture-handler';
 // import {useTheme} from '@react-navigation/native';
 import Swiper from 'react-native-swiper';
@@ -25,7 +26,7 @@ const HomeScreen = ({ navigation }) => {
     const getcategory = async () => {
       await axios({
         method: "get",
-        url: `http://192.168.8.101:8000/api/category/`
+        url: BaseUrl+`/api/category/`
       }).then(response => {
         // console.log(response.data);
         setCategoris(response.data)
