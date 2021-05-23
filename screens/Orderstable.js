@@ -14,7 +14,7 @@ import {
   requestDeviceData,
 } from 'react-native-paypal';
 import axios from 'axios';
-import {BaseUrl} from '../components/serviceUrls';
+import { BaseUrl } from '../components/serviceUrls';
 import { DataTable } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button } from 'react-native-share';
@@ -22,6 +22,8 @@ const Orderstable = props => {
 
 
   const [tableData, setTableData] = useState([]);
+  const [Data,setData] = useState([]);
+  const [indexData] = useState([]);
   const token = 'sandbox_mfxbm3gh_yj2ksb4s4x48hxrp';
 
   const onPressPaypal = async () => {
@@ -40,15 +42,16 @@ const Orderstable = props => {
     const getdata = async () => {
       await axios({
         method: "get",
-        url: BaseUrl+`/api/cart/`,
+        url: BaseUrl + `/api/cart/`,
         headers: {
           Authorization: `token ${await AsyncStorage.getItem('token')}`
         }
       }).then(res => {
         console.log(res.data);
         setTableData(res.data);
-      
-       
+        setData(res.data[0].cartproduct);
+        //  console.log(res.data[0].cartproduct);
+
       })
     }
     getdata()
@@ -57,95 +60,89 @@ const Orderstable = props => {
 
   const updatecartproduct = async (id) => {
     await axios({
-        method: 'post',
-        url: BaseUrl+`/api/updatecartproduct/`,
-        headers: {
-          Authorization: `token ${await AsyncStorage.getItem('token')}`
-        },
-        data: { "id": id }
+      method: 'post',
+      url: BaseUrl + `/api/updatecartproduct/`,
+      headers: {
+        Authorization: `token ${await AsyncStorage.getItem('token')}`
+      },
+      data: { "id": id }
     }).then(response => {
-         console.log(response);
-        // dispatch({
-        //     type: "ADD_RELOADPAGE_DATA",
-        //     reloadpage: response
-        // })
+      console.log(response);
+      // dispatch({
+      //     type: "ADD_RELOADPAGE_DATA",
+      //     reloadpage: response
+      // })
     })
-}
-const editcartproduct = async (id) => {
+  }
+  const editcartproduct = async (id) => {
     await axios({
-        method: 'post',
-        url: BaseUrl+`/api/editcartproduct/`,
-        headers: {
-          Authorization: `token ${await AsyncStorage.getItem('token')}`
-        },
-        data: { "id": id }
+      method: 'post',
+      url: BaseUrl + `/api/editcartproduct/`,
+      headers: {
+        Authorization: `token ${await AsyncStorage.getItem('token')}`
+      },
+      data: { "id": id }
     }).then(response => {
-        console.log(response);
-        // dispatch({
-        //     type: "ADD_RELOADPAGE_DATA",
-        //     reloadpage: response
-        // })
+      console.log(response);
+      // dispatch({
+      //     type: "ADD_RELOADPAGE_DATA",
+      //     reloadpage: response
+      // })
     })
-}
-const delatecartproduct = async (id) => {
+  }
+  const delatecartproduct = async (id) => {
     await axios({
-        method: 'post',
-        url: `http://192.168.8.101:8000/api/delatecartproduct/`,
-        headers: {
-          Authorization: `token ${await AsyncStorage.getItem('token')}`
-        },
-        data: { "id": id }
+      method: 'post',
+      url: `http://192.168.8.101:8000/api/delatecartproduct/`,
+      headers: {
+        Authorization: `token ${await AsyncStorage.getItem('token')}`
+      },
+      data: { "id": id }
     }).then(response => {
-         console.log(response);
-        // dispatch({
-        //     type: "ADD_RELOADPAGE_DATA",
-        //     reloadpage: response
-        // })
+      console.log(response);
+      // dispatch({
+      //     type: "ADD_RELOADPAGE_DATA",
+      //     reloadpage: response
+      // })
     })
-}
-const delatefullcard = async (id) => {
+  }
+  const delatefullcard = async (id) => {
     await axios({
-        method: 'post',
-        url: BaseUrl+`/api/delatefullcart/`,
-        headers: {
-          Authorization: `token ${await AsyncStorage.getItem('token')}`
-        },
-        data: { "id": id }
+      method: 'post',
+      url: BaseUrl + `/api/delatefullcart/`,
+      headers: {
+        Authorization: `token ${await AsyncStorage.getItem('token')}`
+      },
+      data: { "id": id }
     }).then(response => {
-        console.log(response);
-        // dispatch({
-        //     type: "ADD_RELOADPAGE_DATA",
-        //     reloadpage: response
-        // })
-        // dispatch({
-        //     type: "ADD_CARTPRODUCT_UNCOMPLIT",
-        //     cartproductf_uncomplit: null
-        // })
-        alert("Full Cart is Delated")
-        // history.push('/')
+      console.log(response);
+      // dispatch({
+      //     type: "ADD_RELOADPAGE_DATA",
+      //     reloadpage: response
+      // })
+      // dispatch({
+      //     type: "ADD_CARTPRODUCT_UNCOMPLIT",
+      //     cartproductf_uncomplit: null
+      // })
+      alert("Full Cart is Delated")
+      // history.push('/')
     }).catch(error => {
-        console.log(error);
+      console.log(error);
     })
-}
+  }
 
 
 
 
   return (
     <ScrollView style={styles.container}>
-
-
-
-      {
-        tableData?.map((tdata, index) => {
-          return (
-            <View>
-              <View style={{ marginTop: 20, marginBottom: 20, marginLeft: 10 }}>
+        <View style={{ marginTop: 20, marginBottom: 20, marginLeft: 10 }}>
                 <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#03112E' }}>
-                  Here is cart{tdata.customer.name}
+                  Here is cart
+                
                 </Text>
               </View>
-
+               
               <DataTable>
                 <DataTable.Header>
                   <DataTable.Title>Item No</DataTable.Title>
@@ -155,30 +152,55 @@ const delatefullcard = async (id) => {
                   <DataTable.Title>Subtotal</DataTable.Title>
                   <DataTable.Title>Action</DataTable.Title>
 
-                </DataTable.Header>
-                
+                </DataTable.Header>           
 
-                
-                <DataTable.Row key={index=tdata.cartproduct.length-1}>
+      {
+        Data ?.map((tdata,i) => {
+          return (
+            <View>
+      
+                <DataTable.Row key={i}>
 
-                  <DataTable.Cell>{index}   </DataTable.Cell>
-                  <DataTable.Cell>{tdata.cartproduct[index].price}   </DataTable.Cell>
-                  <DataTable.Cell>{tdata.cartproduct[index].quantity}   </DataTable.Cell>
-                  <DataTable.Cell>{tdata.cartproduct[index].subtotal}    </DataTable.Cell>
+                  <DataTable.Cell>{i + 1}   </DataTable.Cell>
+                   <DataTable.Cell>{tdata.price}   </DataTable.Cell> 
+                   <DataTable.Cell>{tdata.quantity}   </DataTable.Cell>
+                  <DataTable.Cell>{tdata.subtotal}    </DataTable.Cell> 
                   <DataTable.Cell>
-                    <Text onPress={() =>editcartproduct(tdata.id)} >-   </Text>
+                    <Text onPress={() => editcartproduct(tdata.id)} >-   </Text>
                     <Text onPress={() => delatecartproduct(tdata.id)} >R  </Text>
                     <Text onPress={() => updatecartproduct(tdata.id)} >+   </Text>
-    
+
                   </DataTable.Cell>
                 </DataTable.Row>
 
+            </View>
+          )
+        }
+
+        )
+
+      }          
+        {
+        tableData ?.map((data) => {
+          return (
+            <View>
+      
+               
                 <DataTable.Header>
                   <DataTable.Title>Total</DataTable.Title>
                   <DataTable.Title> </DataTable.Title>
                   <DataTable.Title> </DataTable.Title>
-                  <DataTable.Title>{tdata.total}</DataTable.Title>
+                  <DataTable.Title>{data.total}</DataTable.Title>
                 </DataTable.Header>
+
+            </View>
+          )
+        }
+
+        )
+
+      }
+
 
 
                 <DataTable.Pagination
@@ -190,17 +212,9 @@ const delatefullcard = async (id) => {
                   label="1-2 of 6"
                 />
               </DataTable>
-            </View>
-          )
-        }
-
-        )
-
-
-      }
 
       {/* <View style={{ flexDirection: 'row', marginTop: 45, backgroundColor: '#F1948A ' }}> */}
-        {/* <View>
+      {/* <View>
           <TouchableOpacity
 
             //onPress={() => props.navigation.navigate('Billscreen')}
@@ -279,7 +293,7 @@ const delatefullcard = async (id) => {
               textAlign: 'center',
               fontStyle: 'italic'
             }}>
-          Place your order
+            Place your order
            </Text>
         </TouchableOpacity>
 
@@ -316,9 +330,9 @@ const styles = StyleSheet.create({
     backgroundColor: '#062157',
     // marginLeft: 20,
     // marginRight: ,
-    alignContent:'center',
-    marginTop:70,
-    borderRadius:5,
+    alignContent: 'center',
+    marginTop: 70,
+    borderRadius: 5,
 
 
   },
