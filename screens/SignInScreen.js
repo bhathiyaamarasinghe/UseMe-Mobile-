@@ -74,23 +74,39 @@ const CustomerRegistrationScreen = ({ navigation }) => {
                     "password": data.password
                 }
             })
-                .then(async response => {
-                     
-                    console.log(response);
-                    try {
-                        await AsyncStorage.setItem('token', response.data['token']);
-                        navigation.navigate('Mainscreen');
-                       
+                .then(response => {
+                    if(response.status === 200){
+                        try {
+                             AsyncStorage.setItem('token', response.data['token']);
+                            navigation.navigate('Mainscreen');
+                           
+    
+                        } catch (e) {
+                            console.log(e);
 
-                    } catch (e) {
-                        console.log(e);
+                        }
+                    }else{
+                    
+                            Alert.alert('Wrong Input!', 'User is a not a valid user.', [
+                                { text: 'Okay' }
+                                
+                            ]);
+                            
+                          
+   
                     }
-                    //  navigation.navigate('Mainscreen')
+                    console.log(response.status);
+                    console.log(response);
+                    
+             
+               
                 })
-                .catch(err => {
-                    alert("Entered Username or Password is invalid Try Again!!")
-                    console.log(err.response);
+                .catch(error => {
+                  
+                    Alert.alert('Error', error.message);
+                    throw error;
                 });
+             
         }
         signIn(handleSignIN)
     }

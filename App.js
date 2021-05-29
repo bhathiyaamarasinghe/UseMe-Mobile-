@@ -34,7 +34,7 @@ const App = () => {
     isLoading: true,
     userName: null,
     userToken: null,
-   
+    reloading:null
   };
 
   const CustomDefaultTheme = {
@@ -90,7 +90,12 @@ const App = () => {
           userToken: action.token,
           isLoading: false,
         };
-      
+        case 'RELOADING':
+          return {
+            ...prevState,
+           
+          reloading:action.reloading
+          };
     }
   };
 
@@ -126,6 +131,12 @@ const App = () => {
       signUp: () => {
 
       },
+
+      cart: () => {
+        dispatch({ type: 'RELOADING' });
+      },
+
+
       toggleTheme: () => {
         setIsDarkTheme(isDarkTheme => !isDarkTheme);
       },

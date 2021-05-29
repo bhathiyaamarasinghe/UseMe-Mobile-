@@ -18,14 +18,14 @@ import { BaseUrl } from '../components/serviceUrls';
 import { DataTable } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button } from 'react-native-share';
+import { AuthContext } from '../components/context';
 const Orderstable = props => {
-
 
   const [tableData, setTableData] = useState([]);
   const [Data,setData] = useState([]);
   const [indexData] = useState([]);
   const token = 'sandbox_mfxbm3gh_yj2ksb4s4x48hxrp';
-
+  const { cart } = React.useContext(AuthContext);
   const onPressPaypal = async () => {
     // const {deviceData} = await requestDeviceData(token);
 
@@ -51,9 +51,12 @@ const Orderstable = props => {
         setTableData(res.data);
         setData(res.data[0].cartproduct);
         //  console.log(res.data[0].cartproduct);
-
+        
+    
       })
+      cart(getdata)
     }
+
     getdata()
   }, []
   )
@@ -68,10 +71,10 @@ const Orderstable = props => {
       data: { "id": id }
     }).then(response => {
       console.log(response);
-      // dispatch({
-      //     type: "ADD_RELOADPAGE_DATA",
-      //     reloadpage: response
-      // })
+      dispatch({
+          // type: "RELOADING",
+          // reloading: response
+      })
     })
   }
   const editcartproduct = async (id) => {
@@ -84,10 +87,10 @@ const Orderstable = props => {
       data: { "id": id }
     }).then(response => {
       console.log(response);
-      // dispatch({
-      //     type: "ADD_RELOADPAGE_DATA",
-      //     reloadpage: response
-      // })
+      dispatch({
+        // type: "RELOADING",
+        // reloading: response
+      })
     })
   }
   const delatecartproduct = async (id) => {
@@ -100,10 +103,10 @@ const Orderstable = props => {
       data: { "id": id }
     }).then(response => {
       console.log(response);
-      // dispatch({
-      //     type: "ADD_RELOADPAGE_DATA",
-      //     reloadpage: response
-      // })
+      dispatch({
+        type: "RELOADING",
+          reloading: response
+      })
     })
   }
   const delatefullcard = async (id) => {
