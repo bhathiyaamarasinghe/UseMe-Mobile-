@@ -11,6 +11,7 @@ import CategoryScreen from './Categoryproduct';
 import ProductScreen from './ProductScreen';
 import CustomerRegistrationScreen from './CustomerRegistrationScreen';
 import Qrscreen from './Qrscreen';
+import stripe from './stripe';
 import Billscreen from './Billscreen';
 import ExploreScreen from './ExploreScreen';
 
@@ -128,6 +129,26 @@ const HomeStackScreen = ({ navigation }) => (
         // )
       }}
     />
+
+
+
+
+<HomeStack.Screen
+      name='stripe'
+      component={stripe}
+      options={{
+
+        // headerRight: () => (
+        //   <Icon.Button name='search-outline'
+        //     size={25}
+        //     backgroundColor='#251C23'
+        //     onPress={() => navigation.openDrawer()}>
+        //   </Icon.Button>
+        // )
+      }}
+    />
+
+
 
     <HomeStack.Screen
       name='Billscreen'

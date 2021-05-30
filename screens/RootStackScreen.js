@@ -1,10 +1,9 @@
 import React from 'react';
 
 import { createStackNavigator } from '@react-navigation/stack';
-
-//import MainTabScreen from './MainTabScreen';
 import Billscreen from '../screens/Billscreen';
 import Qrscreen from '../screens/Qrscreen';
+import stripe from '../screens/stripe';      
 import SplashScreen from './SplashScreen';
 import SignInScreen from './SignInScreen';
 import SignUpScreen from './SignUpScreen';
@@ -24,6 +23,7 @@ const RootStackScreen = ({ navigation }) => (
         <RootStack.Screen name="SignUpScreen" component={SignUpScreen} />
         <RootStack.Screen name="Orderstable" component={Orderstable} />
         <RootStack.Screen name="Billscreen" component={Billscreen} />
+        <RootStack.Screen name="stripe" component={stripe} />       
         <RootStack.Screen name="Qrscreen" component={Qrscreen} />
         <RootStack.Screen name="MainTabScreen" component={MainTabScreen} />
         <RootStack.Screen name="Mainscreen" component={MainTabScreen} />

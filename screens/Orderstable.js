@@ -15,7 +15,7 @@ import {
 } from 'react-native-paypal';
 import axios from 'axios';
 import { BaseUrl } from '../components/serviceUrls';
-import { DataTable } from 'react-native-paper';
+import { DataTable, IconButton, Colors } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button } from 'react-native-share';
 import { AuthContext } from '../components/context';
@@ -96,7 +96,7 @@ const Orderstable = props => {
   const delatecartproduct = async (id) => {
     await axios({
       method: 'post',
-      url: `http://192.168.8.101:8000/api/delatecartproduct/`,
+      url: `http://192.168.8.112:8000/api/delatecartproduct/`,
       headers: {
         Authorization: `token ${await AsyncStorage.getItem('token')}`
       },
@@ -139,21 +139,27 @@ const Orderstable = props => {
 
   return (
     <ScrollView style={styles.container}>
-        <View style={{ marginTop: 20, marginBottom: 20, marginLeft: 10 }}>
-                <Text style={{ fontSize: 25, fontWeight: 'bold', color: '#03112E' }}>
-                  Here is cart
+        <View style={{ marginTop: 10, marginBottom: 20, marginLeft: 30 }}>
+
+      
+                <Text style={{ fontSize: 25, fontWeight: 'bold', color: 'black' }}> 
+                Shopping Cart
                 
                 </Text>
+
+               
               </View>
                
               <DataTable>
-                <DataTable.Header>
+                <DataTable.Header style={{backgroundColor:'white', borderWidth: 2,borderColor:'black',borderRadius:5}}>
                   <DataTable.Title>Item No</DataTable.Title>
                   {/* <DataTable.Title>Item</DataTable.Title> */}
                   <DataTable.Title>Price</DataTable.Title>
                   <DataTable.Title>Qty</DataTable.Title>
                   <DataTable.Title>Subtotal</DataTable.Title>
+                  <DataTable.Title></DataTable.Title>
                   <DataTable.Title>Action</DataTable.Title>
+                  <DataTable.Title></DataTable.Title>
 
                 </DataTable.Header>           
 
@@ -162,17 +168,32 @@ const Orderstable = props => {
           return (
             <View>
       
-                <DataTable.Row key={i}>
+                <DataTable.Row key={i} style={{backgroundColor:'#FFC300', borderWidth: 1,borderColor:'black',borderRadius:5}}> 
 
                   <DataTable.Cell>{i + 1}   </DataTable.Cell>
                    <DataTable.Cell>{tdata.price}   </DataTable.Cell> 
-                   <DataTable.Cell>{tdata.quantity}   </DataTable.Cell>
-                  <DataTable.Cell>{tdata.subtotal}    </DataTable.Cell> 
+                   <DataTable.Cell>{tdata.quantity}</DataTable.Cell>
+                  <DataTable.Cell>{tdata.subtotal}</DataTable.Cell> 
                   <DataTable.Cell>
-                    <Text onPress={() => editcartproduct(tdata.id)} >-   </Text>
-                    <Text onPress={() => delatecartproduct(tdata.id)} >R  </Text>
-                    <Text onPress={() => updatecartproduct(tdata.id)} >+   </Text>
-
+                     <Text onPress={() => editcartproduct(tdata.id)} >Sub</Text> 
+                     
+               
+                  
+               
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                    
+                     
+                     <Text onPress={() => delatecartproduct(tdata.id)} >Delete</Text>
+                  
+                  
+               
+                  </DataTable.Cell>
+                  <DataTable.Cell>
+                 
+                    <Text onPress={() => updatecartproduct(tdata.id)} >Add</Text>
+                  
+               
                   </DataTable.Cell>
                 </DataTable.Row>
 
@@ -189,7 +210,7 @@ const Orderstable = props => {
             <View>
       
                
-                <DataTable.Header>
+                <DataTable.Header style={{backgroundColor:'white',borderRadius:5}}>
                   <DataTable.Title>Total</DataTable.Title>
                   <DataTable.Title> </DataTable.Title>
                   <DataTable.Title> </DataTable.Title>
@@ -216,75 +237,13 @@ const Orderstable = props => {
                 />
               </DataTable>
 
-      {/* <View style={{ flexDirection: 'row', marginTop: 45, backgroundColor: '#F1948A ' }}> */}
-      {/* <View>
-          <TouchableOpacity
-
-            //onPress={() => props.navigation.navigate('Billscreen')}
-            onPress={() => onPressPaypal()}
-            style={styles.pays}>
-            <Text
-              style={{
-                color: '#fff',
-                marginTop: 5,
-                marginBottom: 5,
-                marginLeft: 5,
-                marginRight: 5,
-                fontStyle: 'italic'
-              }}>
-              pay with paypal sandbox
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-        <View>
-          <TouchableOpacity
-
-            onPress={() => props.navigation.navigate('Qrscreen')}
-            //onPress={() => this.props.navigation.navigate('Qrscreen')}
-            //onPress={() => onPressPaypal()}
-            style={styles.pays}
-          >
-            <Text
-              style={{
-                color: '#fff',
-                marginTop: 5,
-                marginBottom: 5,
-                marginLeft: 2,
-                marginRight: 5,
-                fontStyle: 'italic'
-              }}>
-              order now
-            </Text>
-          </TouchableOpacity>
-
-        </View>
-
-        <View style={{ marginLeft: 60 }}>
-          <TouchableOpacity
-            onPress={() => props.navigation.navigate('Qrscreen')}
-            style={styles.payonline}>
-            <Text
-              style={{
-                color: '#fff',
-                marginTop: 5,
-                marginBottom: 5,
-                marginLeft: 5,
-                marginRight: 5,
-                fontStyle: 'italic'
-              }}>
-              pay cash
-            </Text>
-          </TouchableOpacity>
-        </View> */}
-      {/* </View>
-      <View style={{ height: 15 }}></View> */}
+ 
 
       <View>
         <TouchableOpacity
 
           onPress={() => props.navigation.navigate('Billscreen')}
-          //onPress={() => onPressPaypal()}
+          
           style={styles.paycas}>
           <Text
             style={{
@@ -294,7 +253,9 @@ const Orderstable = props => {
               marginLeft: 5,
               marginRight: 5,
               textAlign: 'center',
-              fontStyle: 'italic'
+              fontSize:18,
+             
+              
             }}>
             Place your order
            </Text>
@@ -309,45 +270,24 @@ const Orderstable = props => {
 export default Orderstable;
 
 const styles = StyleSheet.create({
-  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: '#fff' },
+  container: { flex: 1, padding: 16, paddingTop: 30, backgroundColor: 'white' },
   head: { height: 40, backgroundColor: '#85C1E9' },
-  text: { margin: 6 },
-  // payonline: {
-  //   borderWidth: 1,
-  //   borderColor: '#2c3e50',
-  //   backgroundColor: '#062157',
-  //   marginRight: 10,
-  //   marginLeft: 2,
-  // },
+  text: { margin: 8 },
 
-  // paycash: {
-  //   borderWidth: 1,
-  //   borderColor: '#2c3e50',
-  //   backgroundColor: '#062157',
-  //   marginLeft: 2,
-  // },
 
   paycas: {
     borderWidth: 1,
-    borderColor: '#062157',
-    backgroundColor: '#062157',
-    // marginLeft: 20,
-    // marginRight: ,
+    borderColor: 'black',
+    backgroundColor: 'black',
     alignContent: 'center',
     marginTop: 70,
     borderRadius: 5,
+    height: 40 
 
 
   },
 
 
-
-  // pays: {
-  //   borderWidth: 1,
-  //   borderColor: '#3498DB',
-  //   backgroundColor: '#3498DB',
-  //   marginLeft: 2,
-  // },
 });
 
 
