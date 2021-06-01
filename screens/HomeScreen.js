@@ -122,17 +122,7 @@ export default HomeScreen;
 
 const styles = StyleSheet.create({
 
-  // sliderContainer: {
-  //   height: 550,
-  //   width: 340,
-  //   marginTop: 10,
-  //   marginLeft: 10,
-  //   marginRight: 50,
-  //   borderRadius: 8,
-  //   justifyContent:"center",
-    
 
-  // },
   sliderContainer: {
     flex: 1, 
     alignSelf:'center'

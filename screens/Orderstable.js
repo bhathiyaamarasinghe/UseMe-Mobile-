@@ -184,7 +184,7 @@ const Orderstable = props => {
                   <DataTable.Cell>
                     
                      
-                     <Text onPress={() => delatecartproduct(tdata.id)} >Delete</Text>
+                     <Text style={{color:'red'}} onPress={() => delatecartproduct(tdata.id)} >Delete</Text>
                   
                   
                
@@ -240,6 +240,26 @@ const Orderstable = props => {
  
 
       <View>
+                <TouchableOpacity
+
+          onPress={() => delatefullcard()}
+
+          style={styles.delete}>
+          <Text
+            style={{
+              color: '#fff',
+              marginTop: 2,
+              marginBottom: 5,
+              marginLeft: 5,
+              marginRight: 5,
+              textAlign: 'center',
+              fontSize:18,
+            
+              
+            }}>
+            Delete Cart
+          </Text>
+          </TouchableOpacity>
         <TouchableOpacity
 
           onPress={() => props.navigation.navigate('Billscreen')}
@@ -283,6 +303,18 @@ const styles = StyleSheet.create({
     marginTop: 70,
     borderRadius: 5,
     height: 40 
+
+
+  },
+  delete: {
+    borderWidth: 1,
+    borderColor: 'red',
+    backgroundColor: 'red',
+    alignContent: 'center',
+    marginTop: 10,
+    borderRadius: 5,
+    height: 30, 
+    width:180
 
 
   },
