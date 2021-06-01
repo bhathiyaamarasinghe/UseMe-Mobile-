@@ -130,7 +130,7 @@ const Billscreen = ({ navigation }) => {
           onPress={() => ppaypal()}
           style={styles.paycash}
         >
-          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center', fontStyle: 'italic', fontWeight: 'bold', fontSize: 20 }}>Pay with paypal</Text>
+          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center',  fontWeight: 'bold', fontSize: 20 }}>Pay with paypal</Text>
         </TouchableOpacity>
 
       </View>
@@ -146,7 +146,7 @@ const Billscreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('stripe')}
           style={styles.paystr} >
-          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center', fontStyle: 'italic', fontWeight: 'bold', fontSize: 20 }}>pay with stripe</Text>
+          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center',  fontWeight: 'bold', fontSize: 20 }}>pay with stripe</Text>
         </TouchableOpacity>
       </View>
 
@@ -156,7 +156,7 @@ const Billscreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('Qrscreen')}
           style={styles.payonline} >
-          <Text style={{ color: 'black', marginTop: 8, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center', fontStyle: 'italic', fontWeight: 'bold', fontSize: 20 }}>Pay By cash</Text>
+          <Text style={{ color: 'black', marginTop: 8, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>Pay By cash</Text>
         </TouchableOpacity>
       </View>
 

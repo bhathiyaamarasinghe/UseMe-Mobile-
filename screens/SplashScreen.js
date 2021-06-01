@@ -30,7 +30,7 @@ const SplashScreen = ({navigation}) => {
         </View>
         <Animatable.View 
             style={[styles.footer, {
-                backgroundColor: '#2c3e50',
+                backgroundColor: 'black',
             }]}
             animation="fadeInUpBig"
         >
@@ -66,7 +66,7 @@ const height_logo = height * 0.28;
 const styles = StyleSheet.create({
   container: {
     flex: 1, 
-    backgroundColor: 'yellow'
+    backgroundColor: '#FDD017'
   },
   header: {
       flex: 2,
@@ -75,7 +75,7 @@ const styles = StyleSheet.create({
   },
   footer: {
       flex: 1,
-      backgroundColor: '#2c3e50',
+      backgroundColor: 'black',
       borderTopLeftRadius: 30,
       borderTopRightRadius: 30,
       paddingVertical: 50,
@@ -91,7 +91,7 @@ const styles = StyleSheet.create({
       fontWeight: 'bold'
   },
   text: {
-      color: '#c0392b',
+      color: '#FDD017',
       marginTop:5,
       fontSize:20,
       fontWeight: 'bold'

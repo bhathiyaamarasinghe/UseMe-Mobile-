@@ -32,8 +32,9 @@ const CategoryScreen = ({ navigation,route }) => {
                 method: 'get',
                 url: BaseUrl+`/api/category/${route.params?.id}/`
             }).then(response => {
-                 console.log({res:response});
-                setCataproduct(response.data[0]?.category_product)
+                //  console.log("test",response.data[0]?.category_product.map(product=>product.title));
+                // let dataset =response.data[0].category_product
+                setCataproduct(response.data[0].category_product)
                 setCategoryTitle(response.data[0]?.title)
             })
         }
@@ -41,7 +42,11 @@ const CategoryScreen = ({ navigation,route }) => {
 
     }, [])
 
+    const [state, setState] = React.useState('');
 
+    const searchUpdated = (val) => {
+        setState(val);
+    }
 
     return (
        
@@ -49,45 +54,74 @@ const CategoryScreen = ({ navigation,route }) => {
             <ScrollView>
 
                 <Swiper autoplay height={200}>
+                <View style={styles.slide}>
+          <Image
+            source={require('../assets/s1.jpg')}
+            style={styles.sliderImage}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require('../assets/grosary.jpg')}
+            style={styles.sliderImage}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require('../assets/s2.jpg')}
+            style={styles.sliderImage}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require('../assets/s3.jpg')}
+            style={styles.sliderImage}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require('../assets/s4.jpg')}
+            style={styles.sliderImage}
+            resizeMode="cover"
+          />
+        </View>
+        <View style={styles.slide}>
+          <Image
+            source={require('../assets/s5.jpg')}
+            style={styles.sliderImage}
+            resizeMode="cover"
+          />
+        </View>
 
-                    <View style={styles.slide}>
-                        <Image
-                            source={require('../assets/faslide1.jpg')}
-                            style={styles.sliderImage}
-                            resizeMode="cover"
-                        />
-                    </View>
-                    {/* <Text>{route.params.id}</Text> */}
-                    <View style={styles.slide}>
-                        <Image
-                            source={require('../assets/faslide2.jpg')}
-                            style={styles.sliderImage}
-                            resizeMode="cover"
-                        />
-                    </View>
-                    <View style={styles.slide}>
-                        <Image
-                            source={require('../assets/faslide3.jpg')}
-                            style={styles.sliderImage}
-                            resizeMode="cover"
-                        />
-                    </View>
 
 
                 </Swiper>
+
+                <View style={styles.searchBox}>
+                    <SearchInput //
+                        onChangeText={(term) => { searchUpdated(term) }}
+                        style={{ flex: 1, padding: 0 }}
+                        placeholder=".............................Search Here...................................."
+                    />
+                   
+                    <Ionicons name="ios-search" size={30} />
+                </View>
 
                 <View>
                     <Text style={[styles.txtSign,{
                            color: 'black'
                        }]}>Category:{categoryTitle}</Text>
-                    {
-                        cataproduct?.map((product, i) => (
                             <View>
-                            {/* <Text>{JSON.stringify(product)}</Text> */}
-                            <ProductScreen item={product} key={i} />
+                             {
+                                 cataproduct.filter(product=>JSON.stringify(product).toLowerCase().indexOf(state.toLowerCase())!==-1).
+                                 map((product, i) => ( 
+                              <ProductScreen item={product} key={i} />))
+                             }
                             </View>
-                        ))
-                    }
                 </View>
 
             </ScrollView>

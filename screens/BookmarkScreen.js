@@ -1,4 +1,6 @@
+
 import React,{useState} from 'react';
+import axios from 'axios';
 import {
     StyleSheet,
     Text,
@@ -8,16 +10,58 @@ import {
     TouchableOpacity,
     Button
 }from 'react-native';
-const BookmarkScreen = () => {
+import {BaseUrl} from '../components/serviceUrls';
+import { header2 } from '../env'
 
-  const [enteredCmnt,setEnteredCmnt] = useState('');
-        const [courseCmnts,setCourseCmnts] = useState([]);
-        const CmntInputHandler=(enteredText)=>{
-            setEnteredCmnt(enteredText);
-        };
-        const addCmntHandler = () =>{
-            setCourseCmnts(currentCmnts=>[...currentCmnts,enteredCmnt]);
-        };
+const BookmarkScreen = ({navigation}) => {
+
+    const [data, setData] = React.useState({
+        email: '',
+        body: ''
+    });
+
+    const AddComment = async () => {
+        if (!data.email.trim() || !data.body.trim() ) {
+
+            alert('Please fill all the feilds and Try again...');
+            return;
+        }
+        else{
+            console.log("handle comment");
+            await axios({
+                method: "post",
+                url: BaseUrl+`/api/comment/`,
+                headers: header2,
+                data: {
+                    "email": data.email,
+                    "body": data.body
+                }
+            }).then(response => {
+                console.log(response.data);
+            
+            }).catch(function (error) {
+                //console.log(error.response);
+            });
+            alert('Your comment is successfuly added....Thank you for your comment...');
+        }
+
+    }
+
+    const handleEmail = (val) => {
+        setData({
+            ...data,
+            email: val,
+        });
+    }   
+
+    const handleBody = (val) => {
+        setData({
+            ...data,
+            body: val,
+        });
+    }
+
+
 
     return (
       <View style={styles.container}>
@@ -26,28 +70,40 @@ const BookmarkScreen = () => {
                      <Text style={styles.headerText}>Comment Box</Text>
                  </View>
 
-                 <ScrollView style={styles.scrollcontainer}>
-                     
-                        {courseCmnts.map((cmnt)=><View style={styles.listItem}><TouchableOpacity><Text key={cmnt}>{cmnt}</Text></TouchableOpacity></View>)}
-                     
-                 </ScrollView>
+                 <Text style={styles.text_email}>Email</Text>
 
-             <View style={styles.footer}>
-                     <TextInput 
-                     style={styles.textInput}
-                     placeholder='Comment Here..'
-                     placeholderTextColor='gray'
-                     underlineColorAndroid='transparent'
-                     onChangeText={CmntInputHandler}
-                     value={enteredCmnt}
-                     />
-                 </View>
+                 <TextInput
+                            placeholder="Your email"
+                            style ={styles.textInput}
+                            placeholderTextColor="#666666"
+                            autoCapitalize="none"
+                            value={data.email}
+                            onChangeText={(val) => handleEmail(val)}
+                />
 
-                 <TouchableOpacity  style={styles.addButton} onPress={addCmntHandler}>
-                     <Text style={styles.addButtonText}>      Add Commnet</Text>
-                 </TouchableOpacity>
+                <Text style={styles.text_comment}>Comment</Text>
 
-             </View>
+                <TextInput
+                            placeholder="Your comment"
+                            style ={styles.textcomment}
+                            placeholderTextColor="#666666"
+                            autoCapitalize="none"
+                            value={data.body}
+                            onChangeText={(val) => handleBody(val)}
+                />
+
+                <TouchableOpacity
+                            onPress={() => AddComment()}
+                            style={styles.addcomment}
+                >
+                            <Text style={[styles.textaddcomment, {
+                                color: 'black'
+                            }]}>Add Comment</Text>
+                </TouchableOpacity>
+
+                
+
+     </View>
 
     );
 };
@@ -60,7 +116,7 @@ const styles = StyleSheet.create({
     
 },
 Header:{
-    backgroundColor:'#FABC40',
+    backgroundColor:'#FFC300',
     alignItems: 'center',
     justifyContent:'center',
     borderBottomWidth:5,
@@ -105,7 +161,7 @@ addButton: {
     elevation:8,
 },
 addButtonText:{
-    color:'white',
+    color:'black',
     fontSize:15,
     
 },
@@ -115,5 +171,53 @@ listItem:{
     borderColor:'black',
     borderWidth:1,
     margin:10
-}
+},
+text_email: {
+    color: '#05375a',
+    fontSize: 18,
+    marginTop: 10,
+    marginLeft:10,
+    fontWeight: 'bold'
+},
+textInput: {
+    paddingLeft: 10,
+    color: '#05375a',
+    borderColor:'black',
+    borderWidth:1,
+    marginLeft:10,
+    marginRight:10
+},
+text_comment: {
+    color: '#05375a',
+    fontSize: 18,
+    marginTop: 30,
+    marginLeft:10,
+    fontWeight: 'bold'
+},
+textcomment: {
+    paddingLeft: 10,
+    color: '#05375a',
+    borderColor:'black',
+    borderWidth:1,
+    marginLeft:10,
+    marginRight:10,
+    height:240
+    
+},
+addcomment: {
+    width: '60%',
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+    borderRadius: 10,
+    marginLeft:10,
+    borderColor: '#051A85',
+    borderWidth: 1,
+    marginTop: 30,
+    backgroundColor: '#FFC300',
+},
+textaddcomment: {
+    fontSize: 18,
+    fontWeight: 'bold'
+},
 });

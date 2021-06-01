@@ -363,7 +363,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
 
                         >
                             <LinearGradient
-                                colors={['#2c3e50', '#2c3e50']}
+                              colors={['#FFC300', '#C69C0C']}
                                 style={styles.signIn}
                             >
                                 <Text style={[styles.textSign, {
@@ -392,7 +392,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
                         <TouchableOpacity
                             onPress={() => navigation.navigate('SignUpScreen')}
                             style={[styles.signIn, {
-                                borderColor: '#2c3e50',
+                                borderColor: '#FDD017',
                                 borderWidth: 1,
                                 marginTop: 15
                             }]}
@@ -414,7 +414,7 @@ export default CustomerRegistrationScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#34495e'
+        backgroundColor: '#FDD017'
     },
     header: {
         flex: 1,
@@ -431,9 +431,10 @@ const styles = StyleSheet.create({
         paddingVertical: 30
     },
     text_header: {
-        color: '#fff',
+        color: 'black',
         fontWeight: 'bold',
-        fontSize: 30
+        fontSize: 30,
+        paddingBottom:20
     },
     text_footer: {
         color: '#05375a',

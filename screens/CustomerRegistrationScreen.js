@@ -18,7 +18,7 @@ import * as Animatable from 'react-native-animatable';
 import LinearGradient from 'react-native-linear-gradient';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 import Feather from 'react-native-vector-icons/Feather';
-import {BaseUrl} from '../components/serviceUrls';
+import { BaseUrl } from '../components/serviceUrls';
 import { useTheme } from 'react-native-paper';
 
 import { AuthContext } from '../components/context';
@@ -51,26 +51,40 @@ const CustomerRegistrationScreen = ({ navigation }) => {
 
         if (!data.username.trim() || !data.password.trim() || !data.confirm_password.trim()) {
 
-            alert('Please fill all the feilds and try again...');
+            alert('Please fill all the feilds and Try again...');
+            return;
+        }
+        else if (data.username.length <= 3) {
+
+            alert('username must be atleast 4 characters...And make sure to not include space between the characters...');
+            return;
+        }
+        else if (data.password.length <= 7) {
+
+            alert('password must be atleast 8 characters...Try again...');
+            return;
+        }
+        else if (data.password !== data.confirm_password) {
+
+            alert('Password does not match... Try again...');
             return;
         }
         else {
-        
+
             await axios({
                 method: "post",
-                url: BaseUrl+`/api/register/`,
+                url: BaseUrl + `/api/register/`,
                 headers: header2,
                 data: {
                     "username": data.username,
                     "password": data.password
                 }
             })
-                .then(function (response) {
-                    console.log(response);
+                .then(response => {
+                   
+                    alert(response.data["message"])
                 })
-                .catch(function (error) {
-                    //console.log(error.response);
-                });
+            
         }
 
     }
@@ -318,7 +332,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
                             onPress={() => handleSignUp()}
                         >
                             <LinearGradient
-                                colors={['#2c3e50', '#2c3e50']}
+                                colors={['#FFC300', '#C69C0C']}
                                 style={styles.signIn}
                             >
                                 <Text style={[styles.textSign, {
@@ -330,7 +344,7 @@ const CustomerRegistrationScreen = ({ navigation }) => {
                         <TouchableOpacity
                             onPress={() => navigation.navigate('SignInScreen')}
                             style={[styles.signIn, {
-                                borderColor: '#2c3e50',
+                                borderColor: '#FDD017',
                                 borderWidth: 1,
                                 marginTop: 15
                             }]}
@@ -352,7 +366,7 @@ export default CustomerRegistrationScreen;
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#34495e'
+        backgroundColor: '#FDD017'
     },
     header: {
         flex: 1,
@@ -369,9 +383,10 @@ const styles = StyleSheet.create({
         paddingVertical: 30
     },
     text_header: {
-        color: '#fff',
+        color: 'black',
         fontWeight: 'bold',
-        fontSize: 30
+        fontSize: 30,
+        paddingBottom: 20
     },
     text_footer: {
         color: '#05375a',

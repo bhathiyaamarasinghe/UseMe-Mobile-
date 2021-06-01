@@ -19,13 +19,13 @@ const SignUpScreen = ({navigation}) => {
             <TouchableOpacity
                     onPress={() => navigation.navigate('CustomerRegistrationScreen')}
                     style={[styles.signIn, {
-                        borderColor: '#e74c3c',
+                        borderColor: 'black',
                         borderWidth: 1,
                         marginTop: 15
                     }]}
                 >
                     <Text style={[styles.textSign, {
-                        color: '#e74c3c'
+                        color: 'black'
                     }]}>Customer Account</Text>
             </TouchableOpacity>
                 <View >
@@ -33,13 +33,13 @@ const SignUpScreen = ({navigation}) => {
                     <TouchableOpacity
                         onPress={() => navigation.navigate('ShopRegistrationScreen')}
                         style={[styles.signIn, {
-                            borderColor: '#e74c3c',
+                            borderColor: 'black',
                             borderWidth: 1,
                             marginTop: 15
                         }]}
                     >
                         <Text style={[styles.textSign, {
-                            color: '#e74c3c'
+                            color: 'black'
                         }]}>Business Account</Text>
                     </TouchableOpacity>
                 </View>
@@ -48,13 +48,13 @@ const SignUpScreen = ({navigation}) => {
                    <TouchableOpacity
                        onPress={() => navigation.navigate('DeliveryPersonregistrationScreen')}
                        style={[styles.signIn, {
-                           borderColor: '#e74c3c',
+                           borderColor: 'black',
                            borderWidth: 1,
                            marginTop: 15
                        }]}
                    >
                        <Text style={[styles.textSign, {
-                           color: '#e74c3c'
+                           color: 'black'
                        }]}>Delivery Person Account</Text>
                    </TouchableOpacity>
                </View>
@@ -75,7 +75,7 @@ export default SignUpScreen;
 const styles = StyleSheet.create({
     container: {
       flex: 1, 
-      backgroundColor: '#2c3e50'
+      backgroundColor: '#FDD017'
     },
     logocontainer: {
        paddingTop:15
@@ -96,7 +96,7 @@ const styles = StyleSheet.create({
         paddingVertical: 30
     },
     text_header: {
-        color: '#fff',
+        color: 'black',
         fontWeight: 'bold',
         fontSize: 30,
         paddingBottom:20
