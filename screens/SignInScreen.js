@@ -25,7 +25,7 @@ import { header2 } from '../env';
 import AsyncStorage from '@react-native-community/async-storage';
 
 
-const CustomerRegistrationScreen = ({ navigation }) => {
+const CustomerRegistrationScreen = ({ navigation}) => {
 
     const [data, setData] = React.useState({
         username: '',

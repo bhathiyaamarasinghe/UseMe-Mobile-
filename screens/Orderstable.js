@@ -19,13 +19,18 @@ import { DataTable, IconButton, Colors } from 'react-native-paper';
 import AsyncStorage from '@react-native-community/async-storage';
 import { Button } from 'react-native-share';
 import { AuthContext } from '../components/context';
-const Orderstable = props => {
 
+
+const Orderstable = props => {
+  const [loadData, setloadData] = useState(false);
   const [tableData, setTableData] = useState([]);
   const [Data,setData] = useState([]);
   const [indexData] = useState([]);
   const token = 'sandbox_mfxbm3gh_yj2ksb4s4x48hxrp';
   const { cart } = React.useContext(AuthContext);
+ 
+ 
+
   const onPressPaypal = async () => {
     // const {deviceData} = await requestDeviceData(token);
 
@@ -50,15 +55,15 @@ const Orderstable = props => {
         console.log(res.data);
         setTableData(res.data);
         setData(res.data[0].cartproduct);
-        //  console.log(res.data[0].cartproduct);
+        console.log('123',res.data[0].customer.id);
         
-    
+     
       })
       cart(getdata)
     }
 
     getdata()
-  }, []
+  }, [loadData]
   )
 
   const updatecartproduct = async (id) => {
@@ -110,6 +115,7 @@ const Orderstable = props => {
     })
   }
   const delatefullcard = async (id) => {
+ 
     await axios({
       method: 'post',
       url: BaseUrl + `/api/delatefullcart/`,
@@ -134,8 +140,13 @@ const Orderstable = props => {
     })
   }
 
+  const getDatatoTable = async() =>{
+    setloadData(true);
+    //  AsyncStorage.setItem('cartID',id)
+     
+  } 
 
-
+ 
 
   return (
     <ScrollView style={styles.container}>
@@ -146,6 +157,26 @@ const Orderstable = props => {
                 Shopping Cart
                 
                 </Text>
+                <TouchableOpacity
+
+                onPress={() => getDatatoTable()}
+
+                style={styles.get}>
+                <Text
+                  style={{
+                    color: 'white',
+                    marginTop: 2,
+                    marginBottom: 5,
+                    marginLeft: 5,
+                    marginRight: 5,
+                    textAlign: 'center',
+                    fontSize:18,
+                  
+                    
+                  }}>
+                 Get Cart
+                </Text>
+                </TouchableOpacity>
 
                
               </View>
@@ -315,6 +346,17 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     height: 30, 
     width:180
+
+
+  },
+  get: {
+    borderWidth: 1,
+    borderColor: 'black',
+    backgroundColor: 'black',
+    left:200,
+    borderRadius: 5,
+    height: 30, 
+    width:100
 
 
   },

@@ -1,5 +1,7 @@
-import React, { Component } from 'react';
-import { StyleSheet, View, Text, onChangeText, Button, TextInput, TouchableOpacity } from 'react-native';
+
+
+import React, { useState, useContext, useEffect } from 'react';
+import { StyleSheet, View, Text, onChangeText, Button, TextInput, TouchableOpacity, Alert } from 'react-native';
 import { Table, Row, Rows } from 'react-native-table-component';
 //import { AuthContext } from '../components/context';
 import { BaseUrl } from '../components/serviceUrls';
@@ -7,16 +9,39 @@ import { header2 } from '../env';
 import axios from 'axios';
 import PayPal from 'react-native-paypal-wrapper';
 import AsyncStorage from '@react-native-community/async-storage';
+
 const Billscreen = ({ navigation }) => {
 
   const [data, setData] = React.useState({
-    id:13,
+
     address: '',
     mobile: '',
     email: '',
-   
 
   });
+
+  const [Cart, setCart] = useState();
+
+
+  useEffect(async () => {
+    await axios({
+      method: "get",
+      url: BaseUrl + `/api/cart/`,
+      headers: {
+        Authorization: `token ${await AsyncStorage.getItem('token')}`
+      }
+    }).then(res => {
+      console.log(res.data);
+
+      console.log('setid', res.data[0].customer.id);
+      const cartnum = res.data[0].customer.id
+      console.log(cartnum);
+      setCart(cartnum);
+      //  console.log('cart',Cart);
+
+    })
+  }, []);
+
 
 
   const ppaypal = () => {
@@ -49,14 +74,10 @@ const Billscreen = ({ navigation }) => {
   }
 
   const handlesubmit = async () => {
+
+    console.log('cartnum', Cart);
+   
     console.log("submit");
-
-    if (!data.address.trim() || !data.mobile.trim() || !data.email.trim()) {
-
-      alert('Please fill all the feilds and try again...');
-      return;
-    }
-    else {
 
       await axios({
         method: "post",
@@ -65,37 +86,30 @@ const Billscreen = ({ navigation }) => {
           Authorization: `token ${await AsyncStorage.getItem('token')}`
         },
         data: {
-          "cartId": data.id,
+          "cartId": Cart,
           "address": data.address,
           "mobile": data.mobile,
           "email": data.email
         }
+      }).then(res => {
+        console.log(res.data);
+        alert(res.data["message"])
       })
-        .then(function (response) {
-          console.log(response);
-        })
-        .catch(function (error) {
-          //console.log(error.response);
-        });
-    }
-
-
-  };
-
+      
+  }
 
   return (
 
     <View style={styles.container}>
 
-
       <View style={{ paddingTop: 20, paddingLeft: 10, paddingBottom: 10 }}>
 
         <TextInput
-         
+
           style={styles.input}
           placeholder="Enter Your Address"
           value={data.address}
-          onChangeText={(address)=>setData({...data.address})}
+          onChangeText={(address) => setData({ ...data.address })}
         />
 
         <TextInput
@@ -103,22 +117,22 @@ const Billscreen = ({ navigation }) => {
           placeholder="Enter Your Mobile"
           keyboardType="numeric"
           value={data.mobile}
-          onChangeText={(mobile)=>setData({...data.mobile})}
-          
+          onChangeText={(mobile) => setData({ ...data.mobile })}
+
         />
 
         <TextInput
           style={styles.input}
           placeholder="Enter Your Email"
           value={data.email}
-          onChangeText={(email)=>setData({...data.email})}
-        
+          onChangeText={(email) => setData({ ...data.email })}
+
         />
 
         <TouchableOpacity
           style={{ backgroundColor: 'black', width: 200, height: 30, borderRadius: 5, marginLeft: 75, alignItems: 'center', marginTop: 15, paddingTop: 5 }}
           onPress={() => handlesubmit()}>
-          <Text style={{ color: 'white' }}>submit data</Text>
+          <Text style={{ color: 'white' }}>submit</Text>
         </TouchableOpacity>
 
       </View>
@@ -130,7 +144,7 @@ const Billscreen = ({ navigation }) => {
           onPress={() => ppaypal()}
           style={styles.paycash}
         >
-          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center',  fontWeight: 'bold', fontSize: 20 }}>Pay with paypal</Text>
+          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>Pay with paypal</Text>
         </TouchableOpacity>
 
       </View>
@@ -146,7 +160,7 @@ const Billscreen = ({ navigation }) => {
         <TouchableOpacity
           onPress={() => navigation.navigate('stripe')}
           style={styles.paystr} >
-          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center',  fontWeight: 'bold', fontSize: 20 }}>pay with stripe</Text>
+          <Text style={{ color: 'black', marginTop: 10, marginBottom: 5, marginLeft: 5, marginRight: 5, textAlign: 'center', fontWeight: 'bold', fontSize: 20 }}>pay with stripe</Text>
         </TouchableOpacity>
       </View>
 
@@ -166,7 +180,6 @@ const Billscreen = ({ navigation }) => {
   );
 
 };
-
 export default Billscreen;
 
 const styles = StyleSheet.create({
