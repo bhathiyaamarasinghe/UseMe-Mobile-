@@ -32,8 +32,7 @@ const Orderstable = props => {
  
 
   const onPressPaypal = async () => {
-    // const {deviceData} = await requestDeviceData(token);
-
+    
     const response = await requestBillingAgreement(token, {
       billingAgreementDescription: 'Your agreement description', // required
       currency: 'GBP',
@@ -76,10 +75,7 @@ const Orderstable = props => {
       data: { "id": id }
     }).then(response => {
       console.log(response);
-      dispatch({
-          // type: "RELOADING",
-          // reloading: response
-      })
+ 
     })
   }
   const editcartproduct = async (id) => {
@@ -92,26 +88,20 @@ const Orderstable = props => {
       data: { "id": id }
     }).then(response => {
       console.log(response);
-      dispatch({
-        // type: "RELOADING",
-        // reloading: response
-      })
+
     })
   }
   const delatecartproduct = async (id) => {
     await axios({
       method: 'post',
-      url: `http://192.168.8.112:8000/api/delatecartproduct/`,
+      url: BaseUrl +`/api/delatecartproduct/`,
       headers: {
         Authorization: `token ${await AsyncStorage.getItem('token')}`
       },
       data: { "id": id }
     }).then(response => {
       console.log(response);
-      dispatch({
-        type: "RELOADING",
-          reloading: response
-      })
+
     })
   }
   const delatefullcard = async (id) => {
@@ -125,16 +115,9 @@ const Orderstable = props => {
       data: { "id": id }
     }).then(response => {
       console.log(response);
-      // dispatch({
-      //     type: "ADD_RELOADPAGE_DATA",
-      //     reloadpage: response
-      // })
-      // dispatch({
-      //     type: "ADD_CARTPRODUCT_UNCOMPLIT",
-      //     cartproductf_uncomplit: null
-      // })
+
       alert("Full Cart is Delated")
-      // history.push('/')
+ 
     }).catch(error => {
       console.log(error);
     })
@@ -142,14 +125,15 @@ const Orderstable = props => {
 
   const getDatatoTable = async() =>{
     setloadData(true);
-    //  AsyncStorage.setItem('cartID',id)
      
   } 
 
  
 
   return (
-    <ScrollView style={styles.container}>
+
+    <View style={styles.container}>
+      <ScrollView>
         <View style={{ marginTop: 10, marginBottom: 20, marginLeft: 30 }}>
 
       
@@ -313,8 +297,8 @@ const Orderstable = props => {
         </TouchableOpacity>
 
       </View>
-
-    </ScrollView>
+       </ScrollView>
+    </View>
   );
 };
 

@@ -32,8 +32,11 @@ class ExploreScreen extends Component {
     state = {
         cords: [],
         lat: "",
-        lng: ""
+        lng: "",
+        
+       
     }
+    
 
    
 
@@ -45,12 +48,13 @@ class ExploreScreen extends Component {
                 // console.log({ cords })
             })
     }
+
     zoomIn = () => {
         let newRegion = {
-            latitude: region.latitude,
-            longitude: region.longitude,
-            latitudeDelta: region.latitudeDelta / 2,
-            longitudeDelta: region.longitudeDelta / 2
+            latitude: this.state.lat,
+            longitude: this.state.lng,
+            latitudeDelta: ( Math.abs( this.state.lat- 6.8523) * 2) / 2,
+            longitudeDelta: (Math.abs(this.state.lng - 79.8526) * 2) / 2
         }
 
         setRegion(newRegion)
@@ -59,10 +63,10 @@ class ExploreScreen extends Component {
 
     zoomOut = () => {
         let newRegion = {
-            latitude: region.latitude,
-            longitude: region.longitude,
-            latitudeDelta: region.latitudeDelta * 2,
-            longitudeDelta: region.longitudeDelta * 2
+            latitude: this.state.lat,
+            longitude: this.state.lng,
+            latitudeDelta: ( Math.abs( this.state.lat- 6.8523) * 2) / 2,
+            longitudeDelta: (Math.abs(this.state.lng - 79.8526) * 2) / 2
         }
 
         setRegion(newRegion)
@@ -165,7 +169,7 @@ class ExploreScreen extends Component {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={() => this.getdistance()}
+                        onPress={() => this.zoomIn}
                     >
                         <Text style={{ ...FONTS.body1 }}>+</Text>
                     </TouchableOpacity>
@@ -180,7 +184,7 @@ class ExploreScreen extends Component {
                             alignItems: 'center',
                             justifyContent: 'center'
                         }}
-                        onPress={() => this.getdistance()}
+                        onPress={() => this.zoomOut}
                     >
                         <Text style={{ ...FONTS.body1 }}>-</Text>
                     </TouchableOpacity>

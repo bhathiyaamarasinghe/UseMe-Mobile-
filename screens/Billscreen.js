@@ -76,9 +76,12 @@ const Billscreen = ({ navigation }) => {
   const handlesubmit = async () => {
 
     console.log('cartnum', Cart);
-   
-    console.log("submit");
 
+    console.log("submit");
+    if (data.address.length === 0 || data.email.length == 0 ||  data.mobile.length == 0) {
+      alert("Can't provide empty credentials")
+    }
+     else {
       await axios({
         method: "post",
         url: BaseUrl + `/api/orders/`,
@@ -95,7 +98,7 @@ const Billscreen = ({ navigation }) => {
         console.log(res.data);
         alert(res.data["message"])
       })
-      
+    }
   }
 
   return (
