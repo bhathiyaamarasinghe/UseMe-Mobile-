@@ -78,6 +78,7 @@ const CustomerRegistrationScreen = ({ navigation}) => {
                     if(response.status === 200){
                         try {
                              AsyncStorage.setItem('token', response.data['token']);
+                             console.log(response.data['token']);
                             navigation.navigate('Mainscreen');
                            
     
